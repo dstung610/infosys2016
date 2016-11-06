@@ -1,0 +1,75 @@
+Require: All info of all employees
+Command: \project_{*} employees;
+Output:
+499983|1955-08-29|Uri|Juneja|F|1989-08-28
+499984|1959-08-31|Kaijung|Rodham|M|1985-09-11
+499985|1964-12-26|Gila|Lukaszewicz|M|1997-02-11
+499986|1952-07-22|Nathan|Ranta|F|1985-08-11
+499987|1961-09-05|Rimli|Dusink|F|1998-09-20
+499988|1962-09-28|Bangqing|Kleiser|F|1986-06-06
+499989|1954-05-26|Keiichiro|Lindqvist|M|1993-10-28
+499990|1963-11-03|Khaled|Kohling|M|1985-10-10
+499991|1962-02-26|Pohua|Sichman|F|1989-01-12
+499992|1960-10-12|Siamak|Salverda|F|1987-05-10
+499993|1963-06-04|DeForest|Mullainathan|M|1997-04-07
+499994|1952-02-26|Navin|Argence|F|1990-04-24
+499995|1958-09-24|Dekang|Lichtner|F|1993-01-12
+499996|1953-03-07|Zito|Baaz|M|1990-09-27
+499997|1961-08-03|Berhard|Lenart|M|1986-04-21
+499998|1956-09-05|Patricia|Breugel|M|1993-10-13
+499999|1958-05-01|Sachin|Tsukuda|M|1997-11-30
+
+_______________________________________________
+Require: All info of all departments
+Command: \project_{*} departments;
+Output: 
+
+Output schema: (dept_no CHAR, dept_name VARCHAR)
+-----
+d009|Customer Service
+d005|Development
+d002|Finance
+d003|Human Resources
+d001|Marketing
+d004|Production
+d006|Quality Management
+d008|Research
+d007|Sales
+
+________________________________________________
+Require: Full names of all employees
+Command: \project_{CONCAT(last_name,first_name)} employees;
+Output:
+
+ZykhUli
+ZykhUte
+ZykhValter
+ZykhVan
+ZykhVatsa
+ZykhVesna
+ZykhVidar
+ZykhVincent
+ZykhVishwani
+ZykhWeidon
+ZykhXuejia
+ZykhXumin
+ZykhYahiko
+ZykhYolla
+ZykhYongdong
+ZykhYurij
+ZykhZhongwei
+________________________________________________
+Require: Name of all departments
+Command: \project_{dept_name} departments;
+Output:
+
+Customer Service
+Development
+Finance
+Human Resources
+Marketing
+Production
+Quality Management
+Research
+Sales
+
