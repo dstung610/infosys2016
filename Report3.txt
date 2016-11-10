@@ -1,0 +1,170 @@
+All info of all employees
+• Command: SELECT * FROM employees;
+• Output: 
+| 499987 | 1961-09-05 | Rimli          | Dusink           | F      | 1998-09-20 |
+| 499988 | 1962-09-28 | Bangqing       | Kleiser          | F      | 1986-06-06 |
+| 499989 | 1954-05-26 | Keiichiro      | Lindqvist        | M      | 1993-10-28 |
+| 499990 | 1963-11-03 | Khaled         | Kohling          | M      | 1985-10-10 |
+| 499991 | 1962-02-26 | Pohua          | Sichman          | F      | 1989-01-12 |
+| 499992 | 1960-10-12 | Siamak         | Salverda         | F      | 1987-05-10 |
+| 499993 | 1963-06-04 | DeForest       | Mullainathan     | M      | 1997-04-07 |
+| 499994 | 1952-02-26 | Navin          | Argence          | F      | 1990-04-24 |
+| 499995 | 1958-09-24 | Dekang         | Lichtner         | F      | 1993-01-12 |
+| 499996 | 1953-03-07 | Zito           | Baaz             | M      | 1990-09-27 |
+| 499997 | 1961-08-03 | Berhard        | Lenart           | M      | 1986-04-21 |
+| 499998 | 1956-09-05 | Patricia       | Breugel          | M      | 1993-10-13 |
+| 499999 | 1958-05-01 | Sachin         | Tsukuda          | M      | 1997-11-30 |
++--------+------------+----------------+------------------+--------+------------+
+
+All info of all departments
+• Command: SELECT * FROM departments;
+• Output:
++---------+--------------------+
+| dept_no | dept_name          |
++---------+--------------------+
+| d009    | Customer Service   |
+| d005    | Development        |
+| d002    | Finance            |
+| d003    | Human Resources    |
+| d001    | Marketing          |
+| d004    | Production         |
+| d006    | Quality Management |
+| d008    | Research           |
+| d007    | Sales              |
++---------+--------------------+
+9 rows in set (0,02 sec)
+
+Full names of all employees
+• Command: SELECT CONCAT(first_name, " " ,last_name) AS full_name FROM employees;
+• Output: 
+
+Names of all departments
+• Command: SELECT dept_name FROM departments;
+• Output:
++--------------------+
+| dept_name          |
++--------------------+
+| Customer Service   |
+| Development        |
+| Finance            |
+| Human Resources    |
+| Marketing          |
+| Production         |
+| Quality Management |
+| Research           |
+| Sales              |
++--------------------+
+9 rows in set (0,00 sec)
+
+Full names of employees working in "Sales" department
+• Command: SELECT CONCAT(first_name, " ",last_name) AS full_name FROM (employees JOIN dept_emp ON employees.emp_no = dept_emp.emp_no JOIN departments ON dept_emp.dept_no = departments.dept_no) WHERE departments.dept_name = "Sales";
+• Output:
+| Aloke Wuwongse                |
+| Masako Angiulli               |
+| Christ Murtagh                |
+| Youpyo Perfilyeva             |
+| Leszek Pulkowski              |
+| Gaetan Veldwijk               |
+| Mihalis Crabtree              |
+| Bangqing Bodoff               |
+| Guozhong Felder               |
+| Gino Usery                    |
+| Nathan Ranta                  |
+| Rimli Dusink                  |
+| Bangqing Kleiser              |
++-------------------------------+
+52245 rows in set (0,29 sec)
+
+
+Full names of male employees working in "Finance" department
+• Command: SELECT CONCAT(first_name, " ",last_name) AS full_name FROM (employees JOIN dept_emp ON employees.emp_no = dept_emp.emp_no JOIN departments ON dept_emp.dept_no = departments.dept_no) WHERE departments.dept_name = "Finance" AND employees.gender = "M";
+• Output:
+
+Salaries of female employees working in "Marketing" department
+• Command: SELECT salary FROM (employees JOIN dept_emp ON employees.emp_no = dept_emp.emp_no JOIN departments ON dept_emp.dept_no = departments.dept_no JOIN salaries ON salaries.emp_no = employees.emp_no) WHERE departments.dept_name = "Marketing" and employees.gender = "F";
+• Output:
+|  63601 |
+|  64778 |
+|  65475 |
+|  69488 |
+|  72212 |
+|  71874 |
+|  73574 |
+|  76708 |
+|  79327 |
+|  80389 |
++--------+
+74996 rows in set (1,14 sec)
+
+
+Full names of employees who have the same last name as their manager
+• Command: 
+SELECT CONCAT(first_name, " ", last_name) AS full_name 
+FROM (employees JOIN dept_emp ON dept_emp.emp_no = employees.emp_no) A JOIN (employees JOIN dept_manager ON employees.emp_no = dept_manager.emp_no) B ON A.emp_no = B.emp_no WHERE A.last_name = B.last_name;
+• Output:
+
+Full names of managers who have been doing the job twice
+• Command: SELECT CONCAT(first_name," ",last_name) AS full_name FROM employees JOIN dept_emp ON employees.emp_no = dept_emp.emp_no WHERE COUNT(dept_emp.from_date) > 2;
+• Output:
+
+Full names of employees who was paid more than $100000
+• Command: SELECT CONCAT(first_name, " ",last_name) AS full_name FROM employees JOIN salaries ON employees.emp_no = salaries.emp_no WHERE salary > 100000;
+• Output:
+| Guozhong Felder             |
+| Guozhong Felder             |
+| Guozhong Felder             |
+| Gino Usery                  |
+| Gino Usery                  |
+| Gino Usery                  |
+| Gino Usery                  |
+| Gino Usery                  |
+| Gino Usery                  |
+| Gino Usery                  |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Nathan Ranta                |
+| Bangqing Kleiser            |
++-----------------------------+
+94696 rows in set (14,83 sec)
+
+Names of all departments that have employees paid more than $1000000
+• Command: SELECT dept_name FROM employees JOIN salaries ON employees.emp_no = salaries.emp_no JOIN dept_emp ON dept_emp.emp_no = employees.emp_no JOIN departments ON departments.dept_no = dept_emp.dept_no WHERE salary > 100000 GROUP BY dept_name;
+• Output:
+| Marketing          |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
+| Sales              |
++--------------------+
+104408 rows in set (13,52 sec)
+
