@@ -1,0 +1,32 @@
+***Step 1: Create 2 new records in deparments table
+Research and Developments (d010)
+Marketing and Sales (d011)
+Command: INSERT INTO departments VALUES ("d010", "Research and Development"),("d011", "Marketing and Sales")
+
+***Step 2: Update record in employees from old department to new department
+
+Command: UPDATE IGNORE dept_emp SET dept_no = "d010" WHERE dept_no = "d005" OR dept_no = "d008";
+Output:
+Query OK, 101599 rows affected, 5234 warnings (10,58 sec)
+Rows matched: 106833  Changed: 101599  Warnings: 5234
+___________________________________
+Command: UPDATE dept_manager SET dept_no = "d010" WHERE dept_no = "d005" OR dept_no = "d008";
+Output:
+Query OK, 4 rows affected (0,13 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+___________________________________
+Command: UPDATE IGNORE dept_emp SET dept_no = "d011" WHERE dept_no = "d007" OR dept_no = "d001";
+Output:
+Query OK, 68804 rows affected, 3652 warnings (5,89 sec)
+Rows matched: 72456  Changed: 68804  Warnings: 3652
+
+___________________________________
+Command: UPDATE dept_manager SET dept_no = "d011" WHERE dept_no = "d007" OR dept_no = "d001";
+Output:
+Query OK, 4 rows affected (0,08 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+***Step 3: Delete 2 old records
+Command: DELETE FROM departments WHERE dept_no = "d005" OR dept_no = "d008" OR dept_no ="d001" OR dept_no = "d007";
+Output:
