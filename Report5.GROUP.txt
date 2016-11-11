@@ -1,0 +1,101 @@
+Require: What is the average salary of each employee?
+• Command: SELECT AVG(salary) AS average_salary FROM salaries GROUP BY emp_no;
+• Output:
+|     68260.4000 |
+|     43325.0000 |
+|     47829.5000 |
+|     64179.7500 |
+|     40944.6667 |
+|     40000.0000 |
+|     45891.6667 |
+|     63134.1429 |
+|     66475.8667 |
+|     46665.5556 |
+|     70625.0000 |
++----------------+
+300024 rows in set (5,69 sec)
+
+_________________________________________
+Require: How much was each employee paid in total?
+• Command: SELECT SUM(salary) AS total_salary FROM salaries GROUP BY emp_no;
+• Output:
+|         341302 |
+|         129975 |
+|         286977 |
+|        1026876 |
+|         245668 |
+|          40000 |
+|         275350 |
+|         441939 |
+|         997138 |
+|         419990 |
+|         353125 |
++----------------+
+300024 rows in set (2,82 sec)
+__________________________________________
+Minimum, maximum and total salaries of each department?
+• Command:SELECT SUM(salary) AS total_salary, MIN(salary) AS minimum, MAX(salary) AS maximum FROM salaries JOIN dept_emp ON salaries.emp_no = dept_emp.emp_no JOIN departments ON departments.dept_no = dept_emp.dept_no GROUP BY dept_emp.dept_no;
+• Output:
++--------------+---------+---------+
+| total_salary | minimum | maximum |
++--------------+---------+---------+
+|  11650834677 |   38812 |  142395 |
+|   9363811425 |   38735 |  141953 |
+|  41554438942 |   38623 |  138273 |
+|  10865203635 |   38786 |  132103 |
+|   2700693681 |   39551 |  143644 |
+|   2948300896 |   38851 |  123197 |
+|  13143639841 |   38836 |  144866 |
+|  57200885924 |   38849 |  144434 |
+|  51054820927 |   39127 |  158220 |
++--------------+---------+---------+
+9 rows in set (24,27 sec)
+__________________________________________
+Which departments have paid more than 20 billion dollars
+for their employees?
+• Command: SELECT SUM(salary) AS total FROM salaries JOIN dept_emp ON salaries.emp_no = dept_emp.emp_no JOIN departments ON departments.dept_no = dept_emp.dept_no GROUP BY dept_emp.dept_no HAVING total > 20000000000;
+• Output:
++-------------+
+| total       |
++-------------+
+| 41554438942 |
+| 57200885924 |
+| 51054820927 |
++-------------+
+3 rows in set (19,29 sec)
+__________________________________________
+Total salaries of male employees in each department?
+• Command: SELECT SUM(salary) AS total_male_salary FROM employees JOIN salaries ON salaries.emp_no = employees.emp_no WHERE employees.gender = "F" GROUP BY salaries.emp_no;
+• Output:
+|            282730 |
+|            222607 |
+|            643646 |
+|            370158 |
+|           1801349 |
+|            162839 |
+|           1213810 |
+|            286977 |
+|           1026876 |
+|             40000 |
+|            275350 |
++-------------------+
+120051 rows in set (7,41 sec)
+
+__________________________________________
+Total salaries of department managers for each department,
+from highest to lowest?
+• Command: SELECT SUM(salary) AS total_salary FROM dept_manager JOIN salaries ON salaries.emp_no = dept_manager.emp_no GROUP BY dept_no DESC;
+• Output:
++-------------+
+| SUM(salary) |
++-------------+
+|     6008127 |
+|     4587037 |
+|     3187661 |
+|     4162118 |
+|     3374004 |
+|     2098298 |
+|     2549372 |
++-------------+
+7 rows in set (0,02 sec)
+

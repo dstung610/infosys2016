@@ -1,7 +1,7 @@
-***Step 1: Create 2 new records in deparments table
+***Step 1: Create 2 new records in departments table
 Research and Developments (d010)
 Marketing and Sales (d011)
-Command: INSERT INTO departments VALUES ("d010", "Research and Development"),("d011", "Marketing and Sales")
+Command: INSERT INTO departments VALUES ("d010", "Research and Development"),("d011", "Marketing and Sales");
 
 ***Step 2: Update record in employees from old department to new department
 
@@ -27,6 +27,6 @@ Output:
 Query OK, 4 rows affected (0,08 sec)
 Rows matched: 4  Changed: 4  Warnings: 0
 
-***Step 3: Delete 2 old records
+***Step 3: Delete 4 old records
 Command: DELETE FROM departments WHERE dept_no = "d005" OR dept_no = "d008" OR dept_no ="d001" OR dept_no = "d007";
 Output:
