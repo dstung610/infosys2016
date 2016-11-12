@@ -52,13 +52,10 @@ Require: Find the average salary of each job title, from highest to lowest.
 +--------------------+----------------+
 | title              | average_title  |
 +--------------------+----------------+
-| Assistant Engineer | 56963.53043254 |
-| Technique Leader   | 57034.81413021 |
-| Engineer           | 57244.45845623 |
 | Senior Engineer    | 59144.76835191 |
-| Manager            | 66044.38422083 |
-| Staff              | 66956.82969188 |
-| Senior Staff       | 69119.55058257 |
+| Engineer           | 57244.45845623 |
+| Assistant Engineer | 56963.53043254 |
 +--------------------+----------------+
-7 rows in set (14,92 sec)
+3 rows in set (4,38 sec)
+
 
