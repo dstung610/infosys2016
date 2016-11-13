@@ -1,0 +1,188 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\geometry{a4paper} % or letter or a5paper or ... etc
+
+
+\title{Report 10 - Magazine Database}
+\author{Do Son Tung}
+\date{} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\section{Determine concepts that needs to be stored}
+In this NGO, we have director in each head office manages project based on some particular action in each city
+
+\begin{itemize}
+\item person
+\item office
+\item project
+\item action
+\item city
+\end{itemize}
+
+\section{Determine attributes of each concept}
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{relation1.png}
+  \caption{Determine Attribute}
+  \label{fig:relation1}
+\end{figure}
+
+\section{Determine links (relationships) between them}
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{relation2.png}
+  \caption{Determine relationship}
+  \label{fig:relation2}
+\end{figure}
+
+\section{Determine types of each concept attribute}
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{relation3.png}
+  \caption{Determine attribute type}
+  \label{fig:relation3}
+\end{figure}
+
+\pagebreak
+
+
+\section{Solve foreign key links}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{relation4.png}
+  \caption{Solve Foreign Key}
+  \label{fig:relation4}
+\end{figure}
+
+
+\section{Implementation}
+\begin{lstlisting}[language=SQL]
+create database ngo;
+use ngo;
+CREATE TABLE person (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(225),
+	PRIMARY KEY (id)
+);
+
+
+CREATE TABLE city (
+	id INT NOT NULL AUTO_INCREMENT,
+	country VARCHAR(225),
+	no_inhabitant INT,
+	name VARCHAR(225),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE office (
+	id INT NOT NULL AUTO_INCREMENT,
+	phone VARCHAR(225),
+	address VARCHAR(225),
+	director_id INT,
+	city_id INT,
+	PRIMARY KEY (id),
+	FOREIGN KEY (director_id) REFERENCES person(id),
+	FOREIGN KEY (city_id) REFERENCES city(id)
+);
+
+CREATE TABLE project (
+	id INT NOT NULL AUTO_INCREMENT,
+	code VARCHAR(50),
+	title VARCHAR(225),
+	begin_date DATE,
+	end_date DATE,
+	budget INT,
+	personInCharge INT,
+	PRIMARY KEY (id),
+	FOREIGN KEY (personInCharge) REFERENCES person(id)
+);
+
+CREATE TABLE action (
+	id INT NOT NULL AUTO_INCREMENT,
+	description VARCHAR(225),
+	investment INT,
+	project_id INT,
+	city_id INT,
+	PRIMARY KEY (id),
+	FOREIGN KEY (city_id) REFERENCES city(id),
+	FOREIGN KEY (project_id) REFERENCES project(id)
+);
+
+
+
+\end{lstlisting}
+Describe table
+\begin{lstlisting}[language=SQL]
+DESCRIBE person;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(225) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+DESCRIBE office;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| phone       | varchar(225) | YES  |     | NULL    |                |
+| address     | varchar(225) | YES  |     | NULL    |                |
+| director_id | int(11)      | YES  | MUL | NULL    |                |
+| city_id     | int(11)      | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+
+DESCRIBE project;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| id             | int(11)      | NO   | PRI | NULL    | auto_increment |
+| code           | varchar(50)  | YES  |     | NULL    |                |
+| title          | varchar(225) | YES  |     | NULL    |                |
+| begin_date     | date         | YES  |     | NULL    |                |
+| end_date       | date         | YES  |     | NULL    |                |
+| budget         | int(11)      | YES  |     | NULL    |                |
+| personInCharge | int(11)      | YES  | MUL | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+DESCRIBE action;
+
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| description | varchar(225) | YES  |     | NULL    |                |
+| investment  | int(11)      | YES  |     | NULL    |                |
+| project_id  | int(11)      | YES  | MUL | NULL    |                |
+| city_id     | int(11)      | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+DESCRIBE city;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| id            | int(11)      | NO   | PRI | NULL    | auto_increment |
+| country       | varchar(225) | YES  |     | NULL    |                |
+| no_inhabitant | int(11)      | YES  |     | NULL    |                |
+| name          | varchar(225) | YES  |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+
+
+\end{lstlisting}
+
+%\begin{figure}[H]
+%  \includegraphics[width=\linewidth]{}
+%  \caption{Relation}
+%  \label{fig:relation}
+%\end{figure}
+
+\end{document}
