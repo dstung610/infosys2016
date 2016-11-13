@@ -1,0 +1,7 @@
+The employees database is based on 3NF
+
+Because 
++They are split in relation
++Every table has primary key
++Every row in the table is depend on primary key
+
