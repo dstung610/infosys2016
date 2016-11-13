@@ -1,0 +1,76 @@
+Require: Who have the same name as the managers of the “Finance” department?
+• Command: 
+CREATE VIEW last_name_manager_finance AS (SELECT employees.last_name FROM employees JOIN dept_manager ON employees.emp_no = dept_manager.emp_no JOIN departments ON departments.dept_no = dept_manager.dept_no WHERE departments.dept_name = "Finance");
+SELECT CONCAT(first_name," ",last_name) AS full_name FROM employees WHERE employees.last_name IN (SELECT * FROM last_name_manager_finance);
+
+• Output:
+| Conrado Alpin           |
+| Uri Legleitner          |
+| Danil Alpin             |
+| Constantijn Legleitner  |
+| Anoosh Legleitner       |
+| Aiichiro Legleitner     |
+| Gift Legleitner         |
+| Xinan Legleitner        |
+| Gilbert Alpin           |
+| Ramalingam Alpin        |
+| Ekawit Alpin            |
+| Hilary Legleitner       |
+| Geoffry Alpin           |
+| Heping Alpin            |
+| Hidde Alpin             |
++-------------------------+
+408 rows in set (0.23 sec)
+
+_________________________________________________
+Require: Who in the “Production” department were hired after the promotion of the last manager in that department?
+• Command: 
+CREATE VIEW dept_manager_from_date AS SELECT dept_manager.from_date FROM dept_manager JOIN departments ON departments.dept_no = dept_manager.dept_no WHERE departments.dept_name = "Production" ORDER BY from_date DESC LIMIT 1;
+
+SELECT CONCAT(first_name," ",last_name), dept_emp.from_date FROM employees JOIN dept_emp ON employees.emp_no = dept_emp.emp_no WHERE dept_emp.from_date >= (SELECT * FROM dept_manager_from_date);
+• Output:
+| Uri Juneja                       | 2001-12-09 |
+| Gila Lukaszewicz                 | 1997-02-11 |
+| Rimli Dusink                     | 1999-12-21 |
+| Keiichiro Lindqvist              | 1996-10-29 |
+| Khaled Kohling                   | 1999-10-28 |
+| Pohua Sichman                    | 1997-02-11 |
+| DeForest Mullainathan            | 1997-04-07 |
+| Dekang Lichtner                  | 1997-06-02 |
+| Sachin Tsukuda                   | 1997-11-30 |
++----------------------------------+------------+
+87348 rows in set (0.60 sec)
+_________________________________________________
+Require: Find the average salary of each department, from highest to lowest.
+• Command: CREATE VIEW average_salary_emp AS SELECT AVG(salary) AS average_emp, emp_no FROM salaries GROUP BY emp_no;
+
+SELECT dept_name, AVG(average_emp) AS average_dept FROM average_salary_emp AS A JOIN dept_emp ON dept_emp.emp_no = A.emp_no JOIN departments ON dept_emp.dept_no = departments.dept_no GROUP BY dept_emp.dept_no ORDER BY average_dept DESC;
+• Output:
++--------------------+----------------+
+| dept_name          | average_dept   |
++--------------------+----------------+
+| Sales              | 78313.22247361 |
+| Marketing          | 69541.61771136 |
+| Finance            | 68061.43501801 |
+| Research           | 57322.03105659 |
+| Production         | 57253.31382027 |
+| Development        | 57152.20845497 |
+| Customer Service   | 56480.08591880 |
+| Quality Management | 54892.93507273 |
+| Human Resources    | 53214.29085744 |
++--------------------+----------------+
+9 rows in set (1.98 sec)
+
+_________________________________________________
+Require: Find the average salary of each job title, from highest to lowest.
+• Command: SELECT title, AVG(average_emp) AS average_title FROM average_salary_emp AS A JOIN titles ON titles.emp_no = A.emp_no WHERE title LIKE "%Engineer%" GROUP BY title ORDER BY average_title DESC;
+• Output:
++--------------------+----------------+
+| title              | average_title  |
++--------------------+----------------+
+| Senior Engineer    | 59144.76835191 |
+| Engineer           | 57244.45845623 |
+| Assistant Engineer | 56963.53043254 |
++--------------------+----------------+
+3 rows in set (1.89 sec)
+
