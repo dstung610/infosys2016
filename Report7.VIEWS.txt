@@ -1,7 +1,9 @@
 Require: Who have the same name as the managers of the “Finance” department?
 • Command: 
 CREATE VIEW last_name_manager_finance AS (SELECT employees.last_name FROM employees JOIN dept_manager ON employees.emp_no = dept_manager.emp_no JOIN departments ON departments.dept_no = dept_manager.dept_no WHERE departments.dept_name = "Finance");
-SELECT CONCAT(first_name," ",last_name) AS full_name FROM employees WHERE employees.last_name IN (SELECT * FROM last_name_manager_finance);
+
+SELECT CONCAT(first_name," ",last_name) AS full_name FROM employees WHERE employees.last_name IN 
+(SELECT * FROM last_name_manager_finance);
 
 • Output:
 | Conrado Alpin           |
